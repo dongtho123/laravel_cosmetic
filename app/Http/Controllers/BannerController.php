@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class BannerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * .
      *
      * @return \Illuminate\Http\Response
      */
@@ -19,7 +19,7 @@ class BannerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị banner.
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +29,7 @@ class BannerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * .
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -62,7 +62,7 @@ class BannerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Hiển thị banner.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -85,7 +85,7 @@ class BannerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

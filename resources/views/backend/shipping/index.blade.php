@@ -18,7 +18,7 @@
         <table class="table table-bordered" id="banner-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Price</th>
               <th>Status</th>
@@ -27,7 +27,7 @@
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Price</th>
               <th>Status</th>
@@ -39,7 +39,7 @@
                 <tr>
                     <td>{{$shipping->id}}</td>
                     <td>{{$shipping->type}}</td>
-                    <td>${{$shipping->price}}</td>
+                    <td>{{number_format($shipping->price,3)}}đ</td>
                     <td>
                         @if($shipping->status=='active')
                             <span class="badge badge-success">{{$shipping->status}}</span>

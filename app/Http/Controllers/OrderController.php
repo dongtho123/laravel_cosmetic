@@ -16,7 +16,7 @@ use App\Notifications\StatusNotification;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 
      *
      * @return \Illuminate\Http\Response
      */
@@ -37,7 +37,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -60,33 +60,7 @@ class OrderController extends Controller
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
-        // $cart=Cart::get();
-        // // return $cart;
-        // $cart_index='ORD-'.strtoupper(uniqid());
-        // $sub_total=0;
-        // foreach($cart as $cart_item){
-        //     $sub_total+=$cart_item['amount'];
-        //     $data=array(
-        //         'cart_id'=>$cart_index,
-        //         'user_id'=>$request->user()->id,
-        //         'product_id'=>$cart_item['id'],
-        //         'quantity'=>$cart_item['quantity'],
-        //         'amount'=>$cart_item['amount'],
-        //         'status'=>'new',
-        //         'price'=>$cart_item['price'],
-        //     );
-
-        //     $cart=new Cart();
-        //     $cart->fill($data);
-        //     $cart->save();
-        // }
-
-        // $total_prod=0;
-        // if(session('cart')){
-        //         foreach(session('cart') as $cart_items){
-        //             $total_prod+=$cart_items['quantity'];
-        //         }
-        // }
+    
 
         $order=new Order();
         $order_data=$request->all();
@@ -118,14 +92,10 @@ class OrderController extends Controller
         }
         // return $order_data['total_amount'];
         $order_data['status']="new";
-        if(request('payment_method')=='paypal'){
-            $order_data['payment_method']='paypal';
-            $order_data['payment_status']='paid';
-        }
-        else{
+       
             $order_data['payment_method']='cod';
             $order_data['payment_status']='Unpaid';
-        }
+       
         $order->fill($order_data);
         $status=$order->save();
         if($order)
@@ -146,13 +116,162 @@ class OrderController extends Controller
         }
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
 
-        // dd($users);        
+        // dd($users);   
+     
         request()->session()->flash('success','Your product successfully placed in order');
         return redirect()->route('home');
     }
 
+    public function storeVn(Request $request)
+    {
+        $this->validate($request,[
+            'first_name'=>'string|required',
+            'last_name'=>'string|required',
+            'address1'=>'string|required',
+            'address2'=>'string|nullable',
+            'coupon'=>'nullable|numeric',
+            'phone'=>'numeric|required',
+            'post_code'=>'string|nullable',
+            'email'=>'string|required',
+            // 'shipping_id'=>'required',
+            
+        ]);
+        // return $request->all();
+
+        if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
+            request()->session()->flash('error','Cart is Empty !');
+            return back();
+        }
+        $order=new Order();
+        $order_data=$request->all();
+        $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
+        $order_data['user_id']=$request->user()->id;
+        $order_data['shipping_id']=$request->shipping;
+        $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
+        // return session('coupon')['value'];
+        $order_data['sub_total']=Helper::totalCartPrice();
+        $order_data['quantity']=Helper::cartCount();
+        if(session('coupon')){
+            $order_data['coupon']=session('coupon')['value'];
+        }
+        if($request->shipping){
+            if(session('coupon')){
+                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
+            }
+            else{
+                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
+            }
+        }
+        else{
+            if(session('coupon')){
+                $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
+            }
+            else{
+                $order_data['total_amount']=Helper::totalCartPrice();
+            }
+        }
+        // return $order_data['total_amount'];
+        $order_data['status']="new";
+        // if(request('payment_method')=='paypal'){
+            $order_data['payment_method']='paypal';
+            $order_data['payment_status']='paid';
+        // 
+        
+        $order->fill($order_data);
+        $status=$order->save();
+        if($order)
+        // dd($order->id);
+        $users=User::where('role','admin')->first();
+        $details=[
+            'title'=>'New order created',
+            'actionURL'=>route('order.show',$order->id),
+            'fas'=>'fa-file-alt'
+        ];
+        Notification::send($users, new StatusNotification($details));
+        if(request('payment_method')=='paypal'){
+            return redirect()->route('payment')->with(['id'=>$order->id]);
+        }
+        else{
+            session()->forget('cart');
+            session()->forget('coupon');
+        }
+        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://localhost:8000";
+        $vnp_TmnCode = "ZFB05MC7"; //Mã website tại VNPAY 
+        $vnp_HashSecret = "CQTMAIAEFBQWLFJCWHEUMIECIUNWZASW"; //Chuỗi bí mật
+
+        $vnp_TxnRef =$order->order_number ; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = "THANH TOAN HÓA ĐƠN";
+        $vnp_OrderType = "BANK";
+        $vnp_Amount = $order->total_amount * 100000;
+        $vnp_Locale ="VN";
+        $vnp_BankCode = "NCB";
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+        }
+
+        //var_dump($inputData);
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        $returnData = array(
+            'code' => '00'
+            ,
+            'message' => 'success'
+            ,
+            'data' => $vnp_Url
+        );
+        if (isset($_POST['redirect'])) {
+            header('Location: ' . $vnp_Url);
+            die();
+        } else {
+            echo json_encode($returnData);
+        }
+        // vui lòng tham khảo thêm tại code demo
+        // return redirect($vnp_Url);
+        // dd($users);        
+        request()->session()->flash('success','Your product successfully placed in order');
+        return redirect($vnp_Url);
+    }
+
     /**
-     * Display the specified resource.
+     * 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -165,7 +284,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -177,7 +296,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -210,7 +329,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

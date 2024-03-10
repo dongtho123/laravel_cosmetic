@@ -17,7 +17,7 @@
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Review By</th>
               <th>Product Title</th>
               <th>Review</th>
@@ -29,7 +29,7 @@
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Review By</th>
               <th>Product Title</th>
               <th>Review</th>
@@ -43,8 +43,18 @@
             @foreach($reviews as $review)
                 <tr>
                     <td>{{$review->id}}</td>
-                    <td>{{$review->user_info['name']}}</td>
-                    <td>{{$review->product->title}}</td>
+                    <td>
+                      @if ($review->user_info && isset($review->user_info['name']))
+                          {{ $review->user_info['name'] }}
+                      @else
+                          N/A or some default value
+                      @endif
+                  </td>
+                    <td>@if ($review->product)
+                      {{ $review->product->title }}
+                  @else
+                      Product not available
+                  @endif</td>
                     <td>{{$review->review}}</td>
                     <td>
                      <ul style="list-style:none">

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title','NARS || Home')
+@section('title','Home')
 @section('main-content')
 <!-- Slider Area -->
 @if(count($banners)>0)
@@ -63,7 +63,154 @@
     </div>
 </section>
 <!-- End Small Banner -->
+@if(count($collab_movies)>0)
+<div class="product-area section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Recommend System</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+    <div class="col-12">
+        <div class="product-info">
+            <div class="nav-main"></div>
+            <div class="tab-content">
+                <!-- Start Single Tab -->
+                <div class="row">
+                    @if($collab_movies)
+                        @foreach($collab_movies as $key=>$product)
+                            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+                                <div class="single-product">
+                                    <div class="product-img">
+                                        <a href="{{ route('product-detail', $product->slug) }}">
+                                            @php
+                                                $photo = explode(',', $product->photo);
+                                            @endphp
+                                            <img class="default-img" src="{{ $photo[0] }}" alt="{{ $photo[0] }}">
+                                            <img class="hover-img" src="{{ $photo[0] }}" alt="{{ $photo[0] }}">
+                                            @if($product->stock <= 0)
+                                                <span class="out-of-stock">Sale out</span>
+                                            @elseif($product->condition == 'new')
+                                                <span class="new">New</span>
+                                            @elseif($product->condition == 'hot')
+                                                <span class="hot">Hot</span>
+                                            @else
+                                                <span class="price-dec">{{ $product->discount }}% Off</span>
+                                            @endif
+                                        </a>
+                                        <div class="button-head">
+                                            <div class="product-action">
+                                                <a data-toggle="modal" data-target="#{{ $product->id }}"
+                                                    title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick
+                                                        Shop</span></a>
+                                                <a title="Wishlist" href="{{ route('add-to-wishlist', $product->slug) }}"><i
+                                                        class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                            </div>
+                                            <div class="product-action-2">
+                                                <a title="Add to cart"
+                                                    href="{{ route('add-to-cart', $product->slug) }}">Add to cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3><a href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
+                                        </h3>
+                                        <div class="product-price">
+                                            @php
+                                                $after_discount = ($product->price - ($product->price * $product->discount) / 100);
+                                            @endphp
+                                            <span>{{ number_format($after_discount,3) }}đ</span>
+                                            <del style="padding-left:4%;">{{ number_format($product->price, 3)}}đ</del>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+                <!--/ End Single Tab -->
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<div class="product-area section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Recommend System</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+    <div class="col-12">
+        <div class="product-info">
+            <div class="nav-main"></div>
+            <div class="tab-content">
+                <!-- Start Single Tab -->
+                <div class="row">
+                    @if($bestSellingProducts)
+                        @foreach($bestSellingProducts as $key=>$product)
+                            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+                                <div class="single-product">
+                                    <div class="product-img">
+                                        <a href="{{ route('product-detail', $product->slug) }}">
+                                            @php
+                                                $photo = explode(',', $product->photo);
+                                            @endphp
+                                            <img class="default-img" src="{{ $photo[0] }}" alt="{{ $photo[0] }}">
+                                            <img class="hover-img" src="{{ $photo[0] }}" alt="{{ $photo[0] }}">
+                                            @if($product->stock <= 0)
+                                                <span class="out-of-stock">Sale out</span>
+                                            @elseif($product->condition == 'new')
+                                                <span class="new">New</span>
+                                            @elseif($product->condition == 'hot')
+                                                <span class="hot">Hot</span>
+                                            @else
+                                                <span class="price-dec">{{ $product->discount }}% Off</span>
+                                            @endif
+                                        </a>
+                                        <div class="button-head">
+                                            <div class="product-action">
+                                                <a data-toggle="modal" data-target="#{{ $product->id }}"
+                                                    title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick
+                                                        Shop</span></a>
+                                                <a title="Wishlist" href="{{ route('add-to-wishlist', $product->slug) }}"><i
+                                                        class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                            </div>
+                                            <div class="product-action-2">
+                                                <a title="Add to cart"
+                                                    href="{{ route('add-to-cart', $product->slug) }}">Add to cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3><a href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
+                                        </h3>
+                                        <div class="product-price">
+                                            @php
+                                                $after_discount = ($product->price - ($product->price * $product->discount) / 100);
+                                            @endphp
+                                            <span>{{ number_format($after_discount,3)}}đ</span>
+                                            <del style="padding-left:4%;">{{ number_format($product->price,3)}}đ</del>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+                <!--/ End Single Tab -->
+            </div>
+        </div>
+    </div>
+</div>
 
+@endif
 <!-- Start Product Area -->
 <div class="product-area section">
         <div class="container">
@@ -116,7 +263,7 @@
                                                 @if($product->stock<=0)
                                                     <span class="out-of-stock">Sale out</span>
                                                 @elseif($product->condition=='new')
-                                                    <span class="new">New</span
+                                                    <span class="new">New</span>
                                                 @elseif($product->condition=='hot')
                                                     <span class="hot">Hot</span>
                                                 @else
@@ -141,8 +288,8 @@
                                                 @php
                                                     $after_discount=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <span>đ{{number_format($after_discount,3)}}</span>
-                                                <del style="padding-left:4%;">đ{{number_format($product->price,3)}}</del>
+                                                <span>{{number_format($after_discount,3)}}đ</span>
+                                                <del style="padding-left:4%;">{{number_format($product->price,3)}}đ</del>
                                             </div>
                                         </div>
                                     </div>
@@ -209,11 +356,11 @@
                             <div class="product-content">
                                 <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                 <div class="product-price">
-                                    <span class="old">đ{{number_format($product->price,3)}}</span>
+                                    <span class="old">{{number_format($product->price,3)}}đ</span>
                                     @php
                                     $after_discount=($product->price-($product->price*$product->discount)/100)
                                     @endphp
-                                    <span>đ{{number_format($after_discount,3)}}</span>
+                                    <span>{{number_format($after_discount,3)}}đ</span>
                                 </div>
                             </div>
                         </div>
@@ -395,15 +542,7 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    {{-- <div class="col-lg-6 col-12">
-                                                        <h5 class="title">Color</h5>
-                                                        <select>
-                                                            <option selected="selected">orange</option>
-                                                            <option>purple</option>
-                                                            <option>black</option>
-                                                            <option>pink</option>
-                                                        </select>
-                                                    </div> --}}
+                                                   
                                                 </div>
                                             </div>
                                         @endif

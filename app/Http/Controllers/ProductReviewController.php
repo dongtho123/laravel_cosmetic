@@ -11,19 +11,20 @@ use App\Models\ProductReview;
 class ProductReviewController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $reviews=ProductReview::getAllReview();
+
         
         return view('backend.review.index')->with('reviews',$reviews);
     }
 
     /**
-     * Show the form for creating a new resource.
+     *
      *
      * @return \Illuminate\Http\Response
      */
@@ -70,7 +71,7 @@ class ProductReviewController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -81,7 +82,7 @@ class ProductReviewController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     *
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -133,7 +134,7 @@ class ProductReviewController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

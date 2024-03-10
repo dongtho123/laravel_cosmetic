@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','E-TECH || Blog Detail page')
+@section('title','NARS || Blog')
 
 @section('main-content')
     <!-- Breadcrumbs -->
@@ -10,8 +10,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="javascript:void(0);">Blog Single Sidebar</a></li>
+                            <li><a href="{{route('home')}}">Trang chủ<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="javascript:void(0);">Tin Tức</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,18 +71,7 @@
                                         <form class="form comment_form" id="commentForm" action="{{route('post-comment.store',$post->slug)}}" method="POST">
                                             @csrf
                                             <div class="row">
-                                                {{-- <div class="col-lg-6 col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label>Your Name<span>*</span></label>
-                                                        <input type="text" name="name" placeholder="" required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label>Your Email<span>*</span></label>
-                                                        <input type="email" name="email" placeholder="" required="required">
-                                                    </div>
-                                                </div> --}}
+                                              
                                                 <div class="col-12">
                                                     <div class="form-group  comment_form_body">
                                                         <label>Your Message<span>*</span></label>

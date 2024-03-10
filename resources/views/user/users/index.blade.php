@@ -17,7 +17,7 @@
         <table class="table table-bordered" id="user-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Name</th>
               <th>Email</th>
               <th>Photo</th>
@@ -29,7 +29,7 @@
           </thead>
           <tfoot>
             <tr>
-                <th>S.N.</th>
+                <th>STT</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Photo</th>

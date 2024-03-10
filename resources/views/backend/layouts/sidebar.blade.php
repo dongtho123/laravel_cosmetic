@@ -134,20 +134,20 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Posts
+      Blog
     </div>
 
     <!-- Posts -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCollapse" aria-expanded="true" aria-controls="postCollapse">
         <i class="fas fa-fw fa-folder"></i>
-        <span>Posts</span>
+        <span>Blog</span>
       </a>
       <div id="postCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Post Options:</h6>
-          <a class="collapse-item" href="{{route('post.index')}}">Posts</a>
-          <a class="collapse-item" href="{{route('post.create')}}">Add Post</a>
+          <h6 class="collapse-header">Blog Options:</h6>
+          <a class="collapse-item" href="{{route('post.index')}}">Blog</a>
+          <a class="collapse-item" href="{{route('post.create')}}">Add Blog</a>
         </div>
       </div>
     </li>

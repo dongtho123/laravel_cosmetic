@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Post</h5>
+    <h5 class="card-header">Add Blog</h5>
     <div class="card-body">
       <form method="post" action="{{route('post.store')}}">
         {{csrf_field()}}

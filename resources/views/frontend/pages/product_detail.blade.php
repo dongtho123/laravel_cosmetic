@@ -14,7 +14,7 @@
 	<meta property="og:image" content="{{$product_detail->photo}}">
 	<meta property="og:description" content="{{$product_detail->description}}">
 @endsection
-@section('title','E-SHOP || PRODUCT DETAIL')
+@section('title','NARS || PRODUCT DETAIL')
 @section('main-content')
 
 		<!-- Breadcrumbs -->
@@ -24,8 +24,8 @@
 					<div class="col-12">
 						<div class="bread-inner">
 							<ul class="bread-list">
-								<li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="">Shop Details</a></li>
+								<li><a href="{{route('home')}}">Trang chủ<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="">Chi Tiết Sản Phẩm</a></li>
 							</ul>
 						</div>
 					</div>
@@ -79,27 +79,19 @@
 																@endif
 															@endfor
 													</ul>
-													<a href="#" class="total-review">({{$product_detail['getReview']->count()}}) Review</a>
+													<a href="#" class="total-review">({{$product_detail['getReview']->count()}}) Đánh giá</a>
                                                 </div>
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
                                                 @endphp
-												<p class="price"><span class="discount">đ{{number_format($after_discount,3)}}</span><s>đ{{number_format($product_detail->price,3)}}</s> </p>
+												<p class="price"><span class="discount">{{number_format($after_discount,3)}}đ</p>
 												<p class="description">{!!($product_detail->summary)!!}</p>
 											</div>
-											<!--/ End Description -->
-											<!-- Color -->
-											{{-- <div class="color">
-												<h4>Available Options <span>Color</span></h4>
-												<ul>
-													<li><a href="#" class="one"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="two"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="three"><i class="ti-check"></i></a></li>
-													<li><a href="#" class="four"><i class="ti-check"></i></a></li>
-												</ul>
-											</div> --}}
-											<!--/ End Color -->
-											<!-- Size -->
+												<p class="cat">Loại Sản Phẩm :<a href="{{route('product-cat',$product_detail->cat_info['slug'])}}">{{$product_detail->cat_info['title']}}</a></p>
+												@if($product_detail->sub_cat_info)
+												<p class="cat mt-1">Danh mục :<a href="{{route('product-sub-cat',[$product_detail->cat_info['slug'],$product_detail->sub_cat_info['slug']])}}">{{$product_detail->sub_cat_info['title']}}</a></p>
+												@endif
+												<p class="availability">Hàng có sẵn : @if($product_detail->stock>0)<span class="badge badge-success">{{$product_detail->stock}}</span>@else <span class="badge badge-danger">{{$product_detail->stock}}</span>  @endif</p>
 											@if($product_detail->size)
 												<div class="size mt-4">
 													<h4>Size</h4>
@@ -143,12 +135,6 @@
 														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
 													</div>
 												</form>
-
-												<p class="cat">Loại Sản Phẩm :<a href="{{route('product-cat',$product_detail->cat_info['slug'])}}">{{$product_detail->cat_info['title']}}</a></p>
-												@if($product_detail->sub_cat_info)
-												<p class="cat mt-1">Danh mục :<a href="{{route('product-sub-cat',[$product_detail->cat_info['slug'],$product_detail->sub_cat_info['slug']])}}">{{$product_detail->sub_cat_info['title']}}</a></p>
-												@endif
-												<p class="availability">Stock : @if($product_detail->stock>0)<span class="badge badge-success">{{$product_detail->stock}}</span>@else <span class="badge badge-danger">{{$product_detail->stock}}</span>  @endif</p>
 											</div>
 											<!--/ End Product Buy -->
 										</div>
@@ -190,7 +176,6 @@
 																	<div class="add-review">
 																	<h4>Đánh Giá Sao <span class="text-danger">*</span></h4>
 																	<div class="review-inner">
-																			<!-- Form -->
 																@auth
 																<form class="form" method="post" action="{{route('review.store',$product_detail->slug)}}">
                                                                     @csrf
@@ -231,7 +216,7 @@
 																</form>
 																@else 
 																<p class="text-center p-5">
-																	You need to <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)">Đăng nhập</a> OR <a style="color:blue" href="{{route('register.form')}}">Đăng kí</a>
+																	Bạn vui lòng <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)"> Đăng nhập</a> hoặc <a style="color:blue" href="{{route('register.form')}}">Đăng kí</a>
 
 																</p>
 																<!--/ End Form -->
@@ -241,14 +226,9 @@
 															
 																<div class="ratting-main">
 																	<div class="avg-ratting">
-																		{{-- @php 
-																			$rate=0;
-																			foreach($product_detail->rate as $key=>$rate){
-																				$rate +=$rate
-																			}
-																		@endphp --}}
-																		<h4>{{ceil($product_detail->getReview->avg('rate'))}} <span>(Overall)</span></h4>
-																		<span>Based on {{$product_detail->getReview->count()}} Comments</span>
+																	
+																		<h4>{{ceil($product_detail->getReview->avg('rate'))}} <span>(Tổng comments)</span></h4>
+																		<span>{{$product_detail->getReview->count()}} Comments</span>
 																	</div>
 																	@foreach($product_detail['getReview'] as $data)
 																	<!-- Single Rating -->
@@ -344,8 +324,8 @@
                                             @php 
                                                 $after_discount=($data->price-(($data->discount*$data->price)/100));
                                             @endphp
-                                            <span class="old">đ{{number_format($data->price,3)}}</span>
-                                            <span>đ{{number_format($after_discount,3)}}</span>
+                                            <span class="old">{{number_format($data->price,3)}}đ</span>
+                                            <span>{{number_format($after_discount,3)}}đ</span>
                                         </div>
                                       
                                     </div>

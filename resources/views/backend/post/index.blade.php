@@ -9,8 +9,8 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Post Lists</h6>
-      <a href="{{route('post.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Post</a>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Blog Lists</h6>
+      <a href="{{route('post.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Blog</a>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -18,7 +18,7 @@
         <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Category</th>
               <th>Tag</th>
@@ -30,7 +30,7 @@
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Category</th>
               <th>Tag</th>

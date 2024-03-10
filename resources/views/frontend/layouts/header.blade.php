@@ -49,7 +49,7 @@
                         @php
                             $settings=DB::table('settings')->get();
                         @endphp                    
-                        <a href="{{route('home')}}"><img src="@foreach($settings as $data) {{$data->logo}} @endforeach" alt="logo"></a>
+                        <a href="{{route('home')}}"></a>
                     </div>
                     <!--/ End Logo -->
                     <!-- Search Form -->
@@ -124,8 +124,8 @@
                                     </ul>
                                     <div class="bottom">
                                         <div class="total">
-                                            <span>Total</span>
-                                            <span class="total-amount">${{number_format(Helper::totalWishlistPrice(),2)}}</span>
+                                            <span>Tổng</span>
+                                            <span class="total-amount">{{number_format(Helper::totalWishlistPrice(),3)}}đ</span>
                                         </div>
                                         <a href="{{route('cart')}}" class="btn animate">Cart</a>
                                     </div>
@@ -155,14 +155,14 @@
                                                         <a href="{{route('cart-delete',$data->id)}}" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
                                                         <a class="cart-img" href="#"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></a>
                                                         <h4><a href="{{route('product-detail',$data->product['slug'])}}" target="_blank">{{$data->product['title']}}</a></h4>
-                                                        <p class="quantity">{{$data->quantity}} x - <span class="amount">${{number_format($data->price,2)}}</span></p>
+                                                        <p class="quantity">{{$data->quantity}} x - <span class="amount">{{number_format($data->price,3)}}đ</span></p>
                                                     </li>
                                             @endforeach
                                     </ul>
                                     <div class="bottom">
                                         <div class="total">
-                                            <span>Total</span>
-                                            <span class="total-amount">${{number_format(Helper::totalCartPrice(),2)}}</span>
+                                            <span>Tổng</span>
+                                            <span class="total-amount">{{number_format(Helper::totalCartPrice(),3)}}đ</span>
                                         </div>
                                         <a href="{{route('checkout')}}" class="btn animate">Checkout</a>
                                     </div>

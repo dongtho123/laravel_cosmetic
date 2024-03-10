@@ -18,7 +18,7 @@
         <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Category</th>
               <th>Is Featured</th>
@@ -35,7 +35,7 @@
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Title</th>
               <th>Category</th>
               <th>Is Featured</th>

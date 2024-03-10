@@ -17,6 +17,8 @@ use DB;
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\CollaborativeRecommenderSystem;
+use App\Services\OrderCollaborativeRecommenderSystem;
 class FrontendController extends Controller
 {
    
@@ -24,21 +26,69 @@ class FrontendController extends Controller
         return redirect()->route($request->user()->role);
     }
 
-    public function home(){
-        $featured=Product::where('status','active')->where('is_featured',1)->orderBy('price','DESC')->limit(2)->get();
-        $posts=Post::where('status','active')->orderBy('id','DESC')->limit(3)->get();
-        $banners=Banner::where('status','active')->limit(3)->orderBy('id','DESC')->get();
-        // return $banner;
-        $products=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
-        $category=Category::where('status','active')->where('is_parent',1)->orderBy('title','ASC')->get();
-        // return $category;
+    public function home()
+    {
+        $userId = null;
+        $collab_movies = [];
+
+        $userId = null;
+        $collab_movies = [];
+        if (Auth::check()) {
+            $userId = Auth::id();
+            // dd($userId);
+            $cart = Cart::where('user_id', $userId)
+                ->whereNotNull('order_id')
+                ->latest('created_at')
+                ->first();
+
+            $id = $cart->product_id ?? 0;
+                $collab_engine = new OrderCollaborativeRecommenderSystem;
+                //return array key value where key = movie id and value = score
+                $collab_suggestions = $collab_engine->suggestMoviesFor($id, $userId);
+                // dd($collab_suggestions);
+                $collab_movies = [];
+    
+                //create array with Movie models
+                foreach ($collab_suggestions as $product_id => $score) {
+                    $collab_suggested_movie = Product::find($product_id);
+    
+                    $collab_movies[] = $collab_suggested_movie; 
+                }
+                // dd($collab_movies);
+                ini_set('memory_limit', '1024M');
+                ini_set('max_execution_time', 300);
+        
+        } else {
+            $userId = null;
+        }
+        // dd($collab_movies);
+        $bestSellingProducts = Cart::select('products.id', 'products.title', 'products.slug', 'products.price', 'products.discount', 'products.condition', 'products.stock', 'products.photo', DB::raw('COUNT(carts.product_id) as total_sold'))
+        ->join('products', 'carts.product_id', '=', 'products.id')
+        ->groupBy('products.id', 'products.title', 'products.slug', 'products.price', 'products.discount', 'products.condition', 'products.stock', 'products.photo')
+        ->orderByDesc('total_sold')
+        ->whereNotNull('carts.order_id')
+        ->latest('carts.created_at')
+        ->take(5)
+        ->get();
+    
+        // dd($bestSellingProducts);
+    // dd($bestSellingProducts);
+        $featured = Product::where('status', 'active')->where('is_featured', 1)->orderBy('price', 'DESC')->limit(2)->get();
+        $posts = Post::where('status', 'active')->orderBy('id', 'DESC')->limit(3)->get();
+        $banners = Banner::where('status', 'active')->limit(3)->orderBy('id', 'DESC')->get();
+        $products = Product::where('status', 'active')->orderBy('id', 'DESC')->limit(8)->get();
+        $category = Category::where('status', 'active')->where('is_parent', 1)->orderBy('title', 'ASC')->get();
+
         return view('frontend.index')
-                ->with('featured',$featured)
-                ->with('posts',$posts)
-                ->with('banners',$banners)
-                ->with('product_lists',$products)
-                ->with('category_lists',$category);
-    }   
+            ->with('featured', $featured)
+            ->with('posts', $posts)
+            ->with('banners', $banners)
+            ->with('product_lists', $products)
+            ->with('category_lists', $category)
+            ->with('collab_movies', $collab_movies)
+            ->with('bestSellingProducts', $bestSellingProducts);
+    }
+
 
     public function aboutUs(){
         return view('frontend.pages.about-us');

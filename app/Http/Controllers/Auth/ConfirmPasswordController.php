@@ -13,23 +13,20 @@ class ConfirmPasswordController extends Controller
     | Confirm Password Controller
     |--------------------------------------------------------------------------
     |
-    | This controller is responsible for handling password confirmations and
-    | uses a simple trait to include the behavior. You're free to explore
-    | this trait and override any functions that require customization.
+    | Password Controller này xử lý các xác nhận mật khẩu 
     |
     */
 
     use ConfirmsPasswords;
 
     /**
-     * Where to redirect users when the intended url fails.
+*Khi người dùng  url dự định không thành công.
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
      *
      * @return void
      */

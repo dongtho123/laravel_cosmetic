@@ -24,7 +24,7 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-                <form class="form" method="POST" action="{{route('cart.order')}}">
+                <form class="form" method="POST" action="{{route('paymentvnp')}}">
                     @csrf
                     <div class="row"> 
 
@@ -376,7 +376,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>{{number_format(session('coupon')['value'],3)}}đ</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}"><span>{{number_format(session('coupon')['value'],3)}}đ</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -431,6 +431,7 @@
                 </form>
                 <td>
 
+                </td>
         </div>
     </section>
     <!--/ End Checkout -->

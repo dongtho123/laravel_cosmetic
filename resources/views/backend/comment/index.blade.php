@@ -17,7 +17,7 @@
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Author</th>
               <th>Post Title</th>
               <th>Message</th>
@@ -28,7 +28,7 @@
           </thead>
           <tfoot>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Author</th>
               <th>Post Title</th>
               <th>Message</th>

@@ -1,11 +1,5 @@
 /* =====================================
-Template Name: Eshop
-Author Name: Naimur Rahman
-Author URI: http://www.wpthemesgrid.com/
-Description: Eshop - eCommerce HTML5 Template.
-Version:1.0
-========================================*/
-/*======================================
+
 [ CSS Table of contents ]
 01. Preloader CSS
 02. Header CSS
@@ -2344,10 +2338,8 @@ Version:1.0
 .shop.single .product-des .short .description {
 	font-size: 14px;
 	color: #555555;
-	margin-top: 20px;
 	margin-bottom: 20px;
-	padding-bottom: 20px;
-	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
 }
 .shop.single .product-des {}
 .shop.single .product-des .total-review{
@@ -2942,7 +2934,7 @@ Version:1.0
 	padding:0px 50px;
 }
 .shopping-summery thead {
-	background: #F7941D;
+	background: #333;
 	color: #fff;
 }
 .shopping-summery thead tr th {

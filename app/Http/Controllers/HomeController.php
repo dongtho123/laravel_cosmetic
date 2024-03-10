@@ -13,7 +13,7 @@ use Hash;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     *
      *
      * @return void
      */
@@ -102,7 +102,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -129,7 +129,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -182,7 +182,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

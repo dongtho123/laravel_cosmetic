@@ -11,8 +11,8 @@
 					<div class="col-12">
 						<div class="bread-inner">
 							<ul class="bread-list">
-								<li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-								<li class="active"><a href="javascript:void(0);">List Cửa Hàng</a></li>
+								<li><a href="{{route('home')}}">Trang chủ<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="javascript:void(0);">Tất cả sản phẩm</a></li>
 							</ul>
 						</div>
 					</div>
@@ -53,11 +53,7 @@
 											@endforeach
 										</li>
 										@endif
-                                        {{-- @foreach(Helper::productCategoryList('products') as $cat)
-                                            @if($cat->is_parent==1)
-												<li><a href="{{route('product-cat',$cat->slug)}}">{{$cat->title}}</a></li>
-											@endif
-                                        @endforeach --}}
+                                    
                                     </ul>
                                 </div>
                                 <!--/ End Single Widget -->
@@ -66,13 +62,7 @@
 									<h3 class="title">THEO GIÁ</h3>
 									<div class="price-filter">
 										<div class="price-filter-inner">
-											{{-- <div id="slider-range" data-min="10" data-max="2000" data-currency="%"></div>
-												<div class="price_slider_amount">
-												<div class="label-input">
-													<span>Range:</span>
-													<input type="text" id="amount" name="price_range" value='@if(!empty($_GET['price'])) {{$_GET['price']}} @endif' placeholder="Add Your Price"/>
-												</div>
-											</div> --}}
+										
 											@php
 												$max=DB::table('products')->max('price');
 												// dd($max);
@@ -88,17 +78,7 @@
 											</div>
 										</div>
 									</div>
-									{{-- <ul class="check-box-list">
-										<li>
-											<label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">$20 - $50<span class="count">(3)</span></label>
-										</li>
-										<li>
-											<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">$50 - $100<span class="count">(5)</span></label>
-										</li>
-										<li>
-											<label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox">$100 - $250<span class="count">(8)</span></label>
-										</li>
-									</ul> --}}
+							
 								</div>
 								<!--/ End Shop By Price -->
                                 <!-- Single Widget -->
@@ -119,7 +99,7 @@
                                                 @php
                                                     $org=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <p class="price"><del class="text-muted">{{number_format($product->price,3)}}đ</del> {{number_format($org,3)}}đ  </p>                                                
+                                                <p class="price"><del class="text-muted">{{number_format($product->price,3)}}đ</del> {{number_format($org,3)}}đ </p>                                                
                                             </div>
                                         </div>
                                         <!-- End Single Post -->
@@ -198,6 +178,8 @@
 												<div class="col-lg-8 col-md-6 col-12">
 													<div class="list-content">
 														<div class="product-content">
+															
+															<h3 class="title"><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
 															<div class="product-price">
 																@php
 																	$after_discount=($product->price-($product->price*$product->discount)/100);
@@ -205,11 +187,10 @@
 																<span>{{number_format($after_discount,3)}}đ</span>
 																<del>{{number_format($product->price,3)}}đ</del>
 															</div>
-															<h3 class="title"><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
 														{{-- <p>{!! html_entity_decode($product->summary) !!}</p> --}}
 														</div>
 														<p class="des pt-2">{!! html_entity_decode($product->summary) !!}</p>
-														<a href="javascript:void(0)" class="btn cart" data-id="{{$product->id}}">Buy Now!</a>
+														<a href="{{route('product-detail',$product->slug)}}" class="btn cart" data-id="{{$product->id}}">Mua Hàng</a>
 													</div>
 												</div>
 											</div>
@@ -265,11 +246,7 @@
 												<div class="quickview-ratting-review">
 													<div class="quickview-ratting-wrap">
 														<div class="quickview-ratting">
-															{{-- <i class="yellow fa fa-star"></i>
-															<i class="yellow fa fa-star"></i>
-															<i class="yellow fa fa-star"></i>
-															<i class="yellow fa fa-star"></i>
-															<i class="fa fa-star"></i> --}}
+															
 															@php
 																$rate=DB::table('product_reviews')->where('product_id',$product->id)->avg('rate');
 																$rate_count=DB::table('product_reviews')->where('product_id',$product->id)->count();
@@ -295,7 +272,7 @@
 												@php
 													$after_discount=($product->price-($product->price*$product->discount)/100);
 												@endphp
-												<h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
+												<h3><small><del class="text-muted">{{number_format($product->price,3)}}đ</del></small>{{number_format($after_discount,3)}}đ</h3>
 												<div class="quickview-peragraph">
 													<p>{!! html_entity_decode($product->summary) !!}</p>
 												</div>

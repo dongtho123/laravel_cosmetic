@@ -17,7 +17,7 @@
         <table class="table table-bordered" id="user-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>S.N.</th>
+              <th>STT</th>
               <th>Name</th>
               <th>Email</th>
               <th>Photo</th>
@@ -29,7 +29,7 @@
           </thead>
           <tfoot>
             <tr>
-                <th>S.N.</th>
+                <th>STT</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Photo</th>
@@ -69,26 +69,7 @@
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$user->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>
-                    {{-- Delete Modal --}}
-                    {{-- <div class="modal fade" id="delModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="#delModal{{$user->id}}Label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="#delModal{{$user->id}}Label">Delete user</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <form method="post" action="{{ route('users.destroy',$user->id) }}">
-                                @csrf 
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger" style="margin:auto; text-align:center">Parmanent delete user</button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                    </div> --}}
+            
                 </tr>  
             @endforeach
           </tbody>

@@ -10,8 +10,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Grid Cửa Hàng</a></li>
+                            <li><a href="index1.html">Trang chủ<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="blog-single.html">Tất cả sản phẩm</a></li>
                         </ul>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                                 <!--/ End Single Widget -->
                                 <!-- Single Widget -->
                                 <div class="single-widget category">
-                                    <h3 class="title">Brands</h3>
+                                    <h3 class="title">Thương Hiệu</h3>
                                     <ul class="categor-list">
                                         @php
                                             $brands=DB::table('brands')->orderBy('title','ASC')->where('status','active')->get();
@@ -275,7 +275,7 @@
                                             @php
                                                 $after_discount=($product->price-($product->price*$product->discount)/100);
                                             @endphp
-                                            <h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
+                                            <h3><small><del class="text-muted">đ{{number_format($product->price,3)}}</del></small>    đ{{number_format($after_discount,3)}}  </h3>
                                             <div class="quickview-peragraph">
                                                 <p>{!! html_entity_decode($product->summary) !!}</p>
                                             </div>

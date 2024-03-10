@@ -1,17 +1,9 @@
 <?php
 
     use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\OrderController;
+        use App\Http\Controllers\CartController;
 
-    /*
-    |--------------------------------------------------------------------------
-    | Web Routes
-    |--------------------------------------------------------------------------
-    |
-    | Here is where you can register web routes for your application. These
-    | routes are loaded by the RouteServiceProvider within a group which
-    | contains the "web" middleware group. Now create something great!
-    |
-    */
 
     // CACHE CLEAR ROUTE
     Route::get('cache-clear', function () {
@@ -60,7 +52,9 @@
     Route::get('/cart', function () {
         return view('frontend.pages.cart');
     })->name('cart');
-    Route::get('/checkout', 'CartController@checkout')->name('checkout')->middleware('user');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout')->middleware('user');
+    Route::get('/checkoutvp', [CartController::class, 'checkoutvp'])->name('checkoutvp')->middleware('user');
+    Route::post('/vnp-payment', [OrderController::class, 'storeVn'])->name('paymentvnp')->middleware('user');
 // Wishlist
     Route::get('/wishlist', function () {
         return view('frontend.pages.wishlist');
@@ -68,6 +62,7 @@
     Route::get('/wishlist/{slug}', 'WishlistController@wishlist')->name('add-to-wishlist')->middleware('user');
     Route::get('wishlist-delete/{id}', 'WishlistController@wishlistDelete')->name('wishlist-delete');
     Route::post('cart/order', 'OrderController@store')->name('cart.order');
+    // Route::post('checkoutVp', 'OrderController@checkoutVp')->name('paymentvnp');
     Route::get('order/pdf/{id}', 'OrderController@pdf')->name('order.pdf');
     Route::get('/income', 'OrderController@incomeChart')->name('product.order.income');
 // Route::get('/user/chart','AdminController@userPieChart')->name('user.piechart');
@@ -186,3 +181,6 @@
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
+
+    //Thanh toán VNPAY
+    Route::post('/vnpay_payment', 'CheckoutController@vnpay_payment');

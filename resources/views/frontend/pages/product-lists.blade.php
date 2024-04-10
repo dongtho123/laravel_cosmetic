@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','NARS || Product List')
+@section('title','Product List')
 
 @section('main-content')
 	

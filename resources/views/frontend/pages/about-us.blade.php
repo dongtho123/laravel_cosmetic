@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','NARS || KHUYẾN MÃI')
+@section('title','KHUYẾN MÃI')
 
 @section('main-content')
 

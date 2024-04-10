@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','NARS || Login')
+@section('title','Login')
 
 @section('main-content')
     <!-- Breadcrumbs -->

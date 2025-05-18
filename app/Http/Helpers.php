@@ -1,4 +1,6 @@
 <?php
+namespace App\Http;
+
 use App\Models\Message;
 use App\Models\Category;
 use App\Models\PostTag;
@@ -7,8 +9,9 @@ use App\Models\Order;
 use App\Models\Wishlist;
 use App\Models\Shipping;
 use App\Models\Cart;
-// use Auth;
-class Helper{
+use Illuminate\Support\Facades\Auth;
+
+class Helpers {
     public static function messageList()
     {
         return Message::whereNull('read_at')->orderBy('created_at', 'desc')->get();

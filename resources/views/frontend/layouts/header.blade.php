@@ -1,3 +1,6 @@
+@php
+use App\Http\Helpers;
+@endphp
 <header class="header shop">
     <!-- Topbar -->
     <div class="topbar">
@@ -72,7 +75,7 @@
                         <div class="search-bar">
                             <select>
                                 <option >All Danh Mục</option>
-                                @foreach(Helper::getAllCategory() as $cat)
+                                @foreach(Helpers::getAllCategory() as $cat)
                                     <option>{{$cat->title}}</option>
                                 @endforeach
                             </select>
@@ -100,17 +103,17 @@
                                     @endphp
                                 @endforeach
                            @endif
-                            <a href="{{route('wishlist')}}" class="single-icon"><i class="fa fa-heart-o"></i> <span class="total-count">{{Helper::wishlistCount()}}</span></a>
+                            <a href="{{route('wishlist')}}" class="single-icon"><i class="fa fa-heart-o"></i> <span class="total-count">{{Helpers::wishlistCount()}}</span></a>
                             <!-- Shopping Item -->
                             @auth
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
-                                        <span>{{count(Helper::getAllProductFromWishlist())}} Items</span>
+                                        <span>{{count(Helpers::getAllProductFromWishlist())}} Items</span>
                                         <a href="{{route('wishlist')}}">View Wishlist</a>
                                     </div>
                                     <ul class="shopping-list">
                                         {{-- {{Helper::getAllProductFromCart()}} --}}
-                                            @foreach(Helper::getAllProductFromWishlist() as $data)
+                                            @foreach(Helpers::getAllProductFromWishlist() as $data)
                                                     @php
                                                         $photo=explode(',',$data->product['photo']);
                                                     @endphp
@@ -125,7 +128,7 @@
                                     <div class="bottom">
                                         <div class="total">
                                             <span>Tổng</span>
-                                            <span class="total-amount">{{number_format(Helper::totalWishlistPrice(),3)}}đ</span>
+                                            <span class="total-amount">{{number_format(Helpers::totalWishlistPrice(),3)}}đ</span>
                                         </div>
                                         <a href="{{route('cart')}}" class="btn animate">Cart</a>
                                     </div>
@@ -137,17 +140,17 @@
                             <a href="{{route('wishlist')}}" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                         </div> --}}
                         <div class="sinlge-bar shopping">
-                            <a href="{{route('cart')}}" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{Helper::cartCount()}}</span></a>
+                            <a href="{{route('cart')}}" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{Helpers::cartCount()}}</span></a>
                             <!-- Shopping Item -->
                             @auth
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
-                                        <span>{{count(Helper::getAllProductFromCart())}} Items</span>
+                                        <span>{{count(Helpers::getAllProductFromCart())}} Items</span>
                                         <a href="{{route('cart')}}">View Cart</a>
                                     </div>
                                     <ul class="shopping-list">
                                         {{-- {{Helper::getAllProductFromCart()}} --}}
-                                            @foreach(Helper::getAllProductFromCart() as $data)
+                                            @foreach(Helpers::getAllProductFromCart() as $data)
                                                     @php
                                                         $photo=explode(',',$data->product['photo']);
                                                     @endphp
@@ -162,7 +165,7 @@
                                     <div class="bottom">
                                         <div class="total">
                                             <span>Tổng</span>
-                                            <span class="total-amount">{{number_format(Helper::totalCartPrice(),3)}}đ</span>
+                                            <span class="total-amount">{{number_format(Helpers::totalCartPrice(),3)}}đ</span>
                                         </div>
                                         <a href="{{route('checkout')}}" class="btn animate">Checkout</a>
                                     </div>
@@ -189,7 +192,7 @@
                                         <ul class="nav main-menu menu navbar-nav">
                                             <li class="{{Request::path()=='home' ? 'active' : ''}}"><a href="{{route('home')}}">TRANG CHỦ</a></li>
                                             <li class="@if(Request::path()=='product-grids'||Request::path()=='product-lists')  active  @endif"><a href="{{route('product-grids')}}">HÀNG MỚI VỀ</a><span class="new">New</span></li>												
-                                                {{Helper::getHeaderCategory()}}
+                                                    {{Helpers::getHeaderCategory()}}
                                             <li class="{{Request::path()=='about-us' ? 'active' : ''}}"><a href="{{route('about-us')}}">KHUYẾN MÃI</a></li>
                                             <li class="{{Request::path()=='blog' ? 'active' : ''}}"><a href="{{route('blog')}}">TIN TỨC</a></li>									
                                         </ul>
